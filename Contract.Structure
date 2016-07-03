@@ -1,0 +1,51 @@
+contract Structure {
+    //____________________________________________________________________________________________________________
+    //Les codes en Solidity sont destinés à être executés sur Ethereum, ils doivent être simples et lisibles avant d'être efficaces.
+    //On veillera donc à les commenter comme ici, et à utilser une structure conventionnelle. Les codes doivent être auditables
+    //facilement, sinon, le caractère open source du registre distribué d'Ethereum perd sa valeur.
+    //
+    //On commence donc généralement par définir les variables. D'autant plus que leurs états sont stockés en plus dans la blockchain
+    //d'Ethereum au contraire de celle de Bitcoin.
+    //____________________________________________________________________________________________________________
+    address addresse20Bytes
+    //20 octets étant la taille des adresses Ethereum.
+    uint entierPositif;
+    int entier;
+    string chaineCaracteres
+    struct Struct {
+        string chainOfStruct;
+        unint entierPosStruct;
+        bool booleenStruct;
+    }
+    mapping(address=>uint) tableau;
+    //Exemple de tableau contenant les membres d'un groupe avec leur adresse.
+    mapping(address=>bool) members;
+    //
+    address[] listeAdresses;
+    //____________________________________________________________________________________________________________
+    //Il existe d'autres types... http://solidity.readthedocs.io/en/latest/types.html
+    //Il existe des variables particulières à utiliser dans les smart contarcts. Exemples entre guillemets :
+    //"this" : fait référence au contrat actuel.
+    //"msg.sender" : fait référence à l'adresse envoyant du gaz au contrat actuel.
+    //cf : http://solidity.readthedocs.io/en/latest/units-and-global-variables.html
+    //____________________________________________________________________________________________________________
+    //On peut conventionnellement désormais écrire des foncitons. Cependant, si on utilise beaucoup de fois les mêmes contrôles,
+    //il est possible dans Solidity d'utiliser des modifiers afin de ne pas systématiquement les ré-écrire en début de fonction.
+    //Ils seront donc naturellement placés avant celles-ci par clarté.
+    //____________________________________________________________________________________________________________
+    modifier onlyMember() {
+        if(!members[msg.sender]) throw;
+        _
+    }
+    //____________________________________________________________________________________________________________
+    //On notera l'underscore qui représente le code de la fonction qui suit le contrôle du modifier.
+    //On écrit ensuite des fonctions.
+    //____________________________________________________________________________________________________________
+    //
+    function vote(paramètre 1, paramètre 2, ...) onlyMember() {
+        Action 1;
+        Action 2;
+        ...
+        Action n;
+    }
+}
