@@ -1,0 +1,66 @@
+contract Gym {
+	//VARIABLES------------------------------------------------------------------------------------
+	address gymboss;
+	string gymname;
+	uint dayprice;
+	uint memindex;
+	struct Member {
+		uint regdate;
+		uint regdays;
+		uint regdayprice;
+		uint regmsgvalue;
+	}
+	//Un mapping pour scanner les adresses facilement et faire le lien avec les index--------------
+	//Un array pour pouvoir scanner en fonction des index implicites avec les autres infos membres-
+	mapping (address => uint) memap;
+	Member[] memarray;
+	//
+	//CREATOR ET CONSTRUCTOR-----------------------------------------------------------------------
+	function Gym (string _gymname) {
+		gymboss = msg.sender;
+		gymname = _gymname;
+	}
+	//FONCTION CHANGEMENT DU PRIX JOURNALIER-------------------------------------------------------
+	function chgdayprice (uint newprice) {
+		if (msg.sender != gymboss) throw;
+		else {
+			dayprice = newprice;
+		}
+	}
+	//INSCRIPTION OU RENOUVELLEMENT----------------------------------------------------------------
+	function register {
+		if (msg.value < dayprice) throw;
+		//
+		if (!memap[msg.sender]) {
+			memarray.push(Member(now, msg.value / dayprice, dayprice, msg.value));
+			memap[msg.sender] = memarray.length - 1;
+		}
+		else {
+			memindex = memap[msg.sender];
+			if (memarray[memindex].regdate + memarray[memindex].regdays * 1 days >= now) {
+				memarray[memindex].regdays += msg.value / dayprice;
+				memarray[memindex].regdayprice = dayprice;
+			}
+			else {
+				memarray[memindex].regdate = now;
+				memarray[memindex].regdays = msg.value / dayprice;
+				memarray[memindex].regdayprice = dayprice;
+			}
+		}
+	}
+	//DESINSCRIPTION (PAR UN MEMBRE)---------------------------------------------------------------
+	function unregister {
+		if (!memap[msg.sender]) throw;
+		else {
+			memindex = memap[msg.sender];
+			if (memarray[memindex].regdate + memarray[memindex].regdays * 1 days < now) throw;
+			else {
+				daysleft = memarray[memindex].regdate + memarray[memindex].regdays - now;
+				msg.sender.send(daysleft * memarray[memindex].regdayprice);
+				delete memap[msg.sender];
+			}
+		}
+	}
+	//REGULARISATION DU BOSS-----------------------------------------------------------------------
+	
+}
