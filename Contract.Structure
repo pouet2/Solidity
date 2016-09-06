@@ -18,14 +18,14 @@ contract Structure {
         bool booleenStruct;
     }
     mapping(address=>uint) tableau;
-    //Exemple de tableau contenant les membres d'un groupe avec leur adresse.
+    //Exemple de tableau (attention "tableau" est ici un abus de langage) contenant les membres d'un groupe avec leur adresse.
     mapping(address=>bool) members;
     //
     address[] listeAdresses;
     //____________________________________________________________________________________________________________
     //Il existe d'autres types... http://solidity.readthedocs.io/en/latest/types.html
     //Il existe des variables particulières à utiliser dans les smart contarcts. Exemples entre guillemets :
-    //"this" : fait référence au contrat actuel.
+    //"this" : fait référence au contrat actuel (son adresse !).
     //"msg.sender" : fait référence à l'adresse envoyant du gaz au contrat actuel.
     //cf : http://solidity.readthedocs.io/en/latest/units-and-global-variables.html
     //____________________________________________________________________________________________________________
@@ -38,7 +38,7 @@ contract Structure {
         _
     }
     //____________________________________________________________________________________________________________
-    //On notera l'underscore qui représente le code de la fonction qui suit le contrôle du modifier.
+    //On notera l'underscore qui représente le code de la fonction (donc après l'ouverture de l'accolade) qui suit le contrôle du modifier.
     //On écrit ensuite des fonctions.
     //____________________________________________________________________________________________________________
     //
