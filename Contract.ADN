@@ -1,0 +1,47 @@
+contract ADN {
+	//
+	//VARIABLES------------------------------------------------------------------------------------
+	//
+	//Pour la gestion des membres.-----------------------------------------------------------------
+	address adn_boss;
+	mapping (address => bool) adn_members;
+	//
+	//La liste des adn est un array parcouru de l'extérieur.---------------------------------------
+	string[] public adn_list;
+	//
+	//CREATOR ET CONSTRUCTOR-----------------------------------------------------------------------
+	//
+	function ADN() {
+		adn_boss = msg.sender;
+		adn_members[adn_boss] = true;
+	}
+	//
+	//MODIFIERS------------------------------------------------------------------------------------
+	//
+	modifier onlyBoss() {
+        if (msg.sender != adn_boss) throw;
+        _;
+    }
+    modifier onlyMembers() {
+    	if (!adn_members[msg.sender]) throw;
+    	_;
+    }
+    //
+    //FONCTION D'AJOUT D'UN MEMBRE-----------------------------------------------------------------
+    //
+    function member_register (address member) onlyBoss {
+    	adn_members[member] = true;
+    }
+    //
+    //FONCTION DE SUPPRESSION D'UN MEMBRE----------------------------------------------------------
+    //
+    function member_unregister (address member) onlyBoss {
+    	delete adn_members[member];
+    }
+    //
+	//FONCTION D'ENREGISTREMENT D'UN ADN-----------------------------------------------------------
+	//
+	function adn_register (string adn_hash) onlyMembers {
+		adn_list.push(adn_hash);
+	}
+}
