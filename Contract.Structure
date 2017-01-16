@@ -35,7 +35,7 @@ contract Structure {
     //____________________________________________________________________________________________________________
     modifier onlyMember() {
         if(!members[msg.sender]) throw;
-        _
+        _;
     }
     //____________________________________________________________________________________________________________
     //On notera l'underscore qui représente le code de la fonction (donc après l'ouverture de l'accolade) qui suit le contrôle du modifier.
